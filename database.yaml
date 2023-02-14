@@ -1,0 +1,26 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-secret
+stringData:
+  # root password is required to be specified
+  ROOT_PASSWORD: mypass
+  ## application credentials that will be created at cluster bootstrap
+  DATABASE: mattermost
+  USER: mmuser
+  PASSWORD: mmpassword
+---
+apiVersion: mysql.presslabs.org/v1alpha1
+kind: MysqlCluster
+metadata:
+  name: my-cluster
+spec:
+  replicas: 1
+  secretName: my-secret
+  volumeSpec:
+    persistentVolumeClaim:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 1Gi
