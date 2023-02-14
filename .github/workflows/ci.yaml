@@ -26,9 +26,11 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3.2.0
 
-      - uses: engineerd/setup-kind@v0.5.0
+      - uses: helm/kind-action@v1.4.0
         with:
-          image: kindest/node:v1.22.9
+          node_image: kindest/node:v1.22.9
+          kubectl_version: v1.22.9
+          cluster_name: kind
 
       - name: Testing
         run: |
