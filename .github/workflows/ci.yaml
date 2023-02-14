@@ -26,11 +26,22 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3.2.0
 
-      - uses: helm/kind-action@v1.4.0
+      - name: start minikube
+        uses: medyagh/setup-minikube@ab221dee176f8eabd8deddf849b5bf1d6244a6e8
         with:
-          node_image: kindest/node:v1.22.9
-          kubectl_version: v1.22.9
-          cluster_name: kind
+          cache: false
+          minikube-version: 1.29.0
+          driver: docker
+          container-runtime: containerd
+          kubernetes-version: v1.22.9
+          cni: bridge
+
+      # - uses: helm/kind-action@v1.4.0
+      #   with:
+      #     node_image: kindest/node:v1.22.9
+      #     kubectl_version: v1.22.9
+      #     version: v0.17.0
+      #     cluster_name: kind
 
       - name: Testing
         run: |

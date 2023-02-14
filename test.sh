@@ -8,11 +8,11 @@ docker pull --platform=linux/x86_64 bitpoke/mysql-operator-orchestrator:v0.6.2
 docker pull --platform=linux/x86_64 percona:5.7.35
 docker pull --platform=linux/x86_64 prom/mysqld-exporter:v0.11.0
 
-kind load docker-image bitpoke/mysql-operator:v0.6.2
-kind load docker-image bitpoke/mysql-operator-sidecar-5.7:v0.6.2
-kind load docker-image bitpoke/mysql-operator-orchestrator:v0.6.2
-kind load docker-image percona:5.7.35
-kind load docker-image prom/mysqld-exporter:v0.11.0
+minikube cache add docker-image bitpoke/mysql-operator:v0.6.2
+minikube cache add docker-image bitpoke/mysql-operator-sidecar-5.7:v0.6.2
+minikube cache add docker-image bitpoke/mysql-operator-orchestrator:v0.6.2
+minikube cache add docker-image percona:5.7.35
+minikube cache add docker-image prom/mysqld-exporter:v0.11.0
 
 helm repo add bitpoke https://helm-charts.bitpoke.io
 helm repo update 
