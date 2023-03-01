@@ -18,6 +18,7 @@ metadata:
 spec:
   replicas: 1
   secretName: my-secret
+  mysqlVersion: "8.0"
   volumeSpec:
     persistentVolumeClaim:
       accessModes: ["ReadWriteOnce"]

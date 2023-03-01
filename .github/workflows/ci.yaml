@@ -11,40 +11,43 @@ env:
   TERM: xterm
 
 jobs:
-  test:
+  test-linux:
     runs-on: ubuntu-22.04
     steps:
-      ### Temp session for debugging
-      - name: Setup upterm session
-        uses: lhotari/action-upterm@d23c2722bdab893785c9fbeae314cbf080645bd7
-        with:
-          ## limits ssh access and adds the ssh public key for the user which triggered the workflow
-          limit-access-to-actor: true
-          # ## limits ssh access and adds the ssh public keys of the listed GitHub users
-          # limit-access-to-users: toninis
-
-      - name: Checkout repo
-        uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3.2.0
-
-      - name: start minikube
-        uses: medyagh/setup-minikube@ab221dee176f8eabd8deddf849b5bf1d6244a6e8
-        with:
-          cache: false
-          minikube-version: 1.29.0
-          driver: docker
-          container-runtime: containerd
-          kubernetes-version: v1.22.9
-          cni: bridge
-
-      # - uses: helm/kind-action@v1.4.0
-      #   with:
-      #     node_image: kindest/node:v1.22.9
-      #     kubectl_version: v1.22.9
-      #     version: v0.17.0
-      #     cluster_name: kind
-
-      - name: Testing
+      - name: generate-artifacts
         run: |
-          kubectl cluster-info
-          kubectl version
-          ./test.sh
+          mkdir -p build/linux
+          echo "File 1" > build/linux/binary1-linux.txt
+          echo "File 2" > build/linux/binary2-linux.txt
+      - name: upload
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
+        with:
+          name: build
+          path: ./build
+          retention-days: 1
+
+  test-mac:
+    runs-on: macos-12
+    steps:
+      - name: generate-artifacts
+        run: |
+          mkdir -p build/mac-os
+          echo "File 1" > build/mac-os/binary1-mac.txt
+          echo "File 2" > build/mac-os/binary2-mac.txt
+      - name: upload
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
+        with:
+          name: build
+          path: ./build
+          retention-days: 1
+
+  upload-to-s3-daily:
+    runs-on: ubuntu-22.04
+    needs:
+      - test-linux
+      - test-mac
+    steps:
+      - name: download-builds
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # v3.0.2
+      - name: check tree
+        run: ls -R
