@@ -3,26 +3,21 @@ name: test
 on:
   push:
 
-defaults:
-  run:
-    shell: bash
-
 env:
   TERM: xterm
+  NODE_VERSION: 13
 
 jobs:
   nvm:
     runs-on: ubuntu-22.04
     steps:
-      - name: setup-node
-        run: |
-          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-          echo "$HOME/.nvm" >> $GITHUB_PATH
+      - name: try out nvm
+        shell: bash -l {0}
+        run: nvm install
 
       - name: use-node
         run: |
-          nvm install 13
-          nvm use 13
+          nvm use
           node -v 
           npm -v
 
