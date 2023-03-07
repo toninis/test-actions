@@ -11,43 +11,58 @@ env:
   TERM: xterm
 
 jobs:
-  test-linux:
+  nvm:
     runs-on: ubuntu-22.04
     steps:
-      - name: generate-artifacts
+      - name: setup-node
         run: |
-          mkdir -p build/linux
-          echo "File 1" > build/linux/binary1-linux.txt
-          echo "File 2" > build/linux/binary2-linux.txt
-      - name: upload
-        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
-        with:
-          name: build
-          path: ./build
-          retention-days: 1
+          nvm install 13
+          nvm use 13
+          node -v 
+          npm -v
 
-  test-mac:
-    runs-on: macos-12
-    steps:
-      - name: generate-artifacts
+      - name: use-node
         run: |
-          mkdir -p build/mac-os
-          echo "File 1" > build/mac-os/binary1-mac.txt
-          echo "File 2" > build/mac-os/binary2-mac.txt
-      - name: upload
-        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
-        with:
-          name: build
-          path: ./build
-          retention-days: 1
+          node -v 
+          npm -v
 
-  upload-to-s3-daily:
-    runs-on: ubuntu-22.04
-    needs:
-      - test-linux
-      - test-mac
-    steps:
-      - name: download-builds
-        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # v3.0.2
-      - name: check tree
-        run: ls -R
+  # test-linux:
+  #   runs-on: ubuntu-22.04
+  #   steps:
+  #     - name: generate-artifacts
+  #       run: |
+  #         mkdir -p build/linux
+  #         echo "File 1" > build/linux/binary1-linux.txt
+  #         echo "File 2" > build/linux/binary2-linux.txt
+  #     - name: upload
+  #       uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
+  #       with:
+  #         name: build
+  #         path: ./build
+  #         retention-days: 1
+
+  # test-mac:
+  #   runs-on: macos-12
+  #   steps:
+  #     - name: generate-artifacts
+  #       run: |
+  #         mkdir -p build/mac-os
+  #         echo "File 1" > build/mac-os/binary1-mac.txt
+  #         echo "File 2" > build/mac-os/binary2-mac.txt
+  #     - name: upload
+  #       uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
+  #       with:
+  #         name: build
+  #         path: ./build
+  #         retention-days: 1
+
+  # upload-to-s3-daily:
+  #   runs-on: ubuntu-22.04
+  #   needs:
+  #     - test-linux
+  #     - test-mac
+  #   steps:
+  #     - name: download-builds
+  #       uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # v3.0.2
+  #     - name: check tree
+  #       run: ls -R
