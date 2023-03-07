@@ -12,12 +12,13 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: try out nvm
-        shell: bash -l {0}
+        shell: bash -l -e -o pipefail {0}
         run: nvm install ${{ env.NODE_VERSION }}
 
       - name: use-node
+        shell: bash -l -e -o pipefail {0}
         run: |
-          nvm use
+          nvm use ${{ env.NODE_VERSION }}
           node -v 
           npm -v
 
