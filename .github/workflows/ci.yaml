@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: try out nvm
         shell: bash -l {0}
-        run: nvm install
+        run: nvm install ${{ env.NODE_VERSION }}
 
       - name: use-node
         run: |
