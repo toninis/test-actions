@@ -5,21 +5,19 @@ on:
 
 env:
   TERM: xterm
-  NODE_VERSION: 13
+  NODE_VERSION: 16
 
 jobs:
   nvm:
     runs-on: ubuntu-22.04
     steps:
-      - name: try out nvm
-        shell: bash -l -e -o pipefail {0}
-        run: nvm install ${{ env.NODE_VERSION }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
-      - name: use-node
-        shell: bash -l -e -o pipefail {0}
+      - name: test installation
         run: |
-          nvm use ${{ env.NODE_VERSION }}
-          node -v 
+          node -v
           npm -v
 
   # test-linux:
