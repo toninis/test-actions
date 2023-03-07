@@ -5,7 +5,7 @@ on:
 
 env:
   TERM: xterm
-  NODE_VERSION: 16
+  NODE_VERSION: 16.15.0
 
 jobs:
   nvm:
@@ -16,6 +16,14 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: test installation
+        run: |
+          node -v
+          npm -v
+
+      - name: downgrade npm
+        run: sudo npm install -g npm@8.5.5
+
+      - name: test installation again
         run: |
           node -v
           npm -v
