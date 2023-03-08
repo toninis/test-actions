@@ -5,28 +5,16 @@ on:
 
 env:
   TERM: xterm
-  NODE_VERSION: 16.15.0
 
 jobs:
   nvm:
-    runs-on: ubuntu-22.04
+    runs-on: windows-2022
     steps:
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
+      - uses: actions/checkout@v3
 
-      - name: test installation
-        run: |
-          node -v
-          npm -v
+      - uses: ./.github/actions/patch-nightly-version
 
-      - name: downgrade npm
-        run: sudo npm install -g npm@8.5.5
-
-      - name: test installation again
-        run: |
-          node -v
-          npm -v
+      - run: jq .version package.json
 
   # test-linux:
   #   runs-on: ubuntu-22.04
