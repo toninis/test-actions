@@ -14,8 +14,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - run: |
-          echo "linklist=$(<./linklist.txt)" >> "$GITHUB_OUTPUT"
+      - id: generate-linklist
+        run: |
+          LINKLIST=$(<./linklist.txt)
+          LINKLIST="${LINKLIST//'%'/'%25'}"
+          LINKLIST="${LINKLIST//$'\n'/'%0A'}"
+          LINKLIST="${LINKLIST//$'\r'/'%0D'}"
+          echo "linklist=${LINKLIST}" >> $GITHUB_OUTPUT
 
   test-linux:
     runs-on: ubuntu-22.04
