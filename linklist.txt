@@ -1,0 +1,26 @@
+### Nightly builds:
+Links for Mar-09-2023
+
+##### :tux: Linux
+- [mattermost-desktop-5.3.0-nightly.20230309-linux-aarch64.rpm](https://s3.amazonaws.com/releases.mattermost.com/desktop/5.3.0-nightly.20230309/mattermost-desktop-5.3.0-nightly.20230309-linux-aarch64.rpm)
+- [mattermost-desktop-5.3.0-nightly.20230309-linux-arm64.AppImage](https://s3.amazonaws.com/releases.mattermost.com/desktop/5.3.0-nightly.20230309/mattermost-desktop-5.3.0-nightly.20230309-linux-arm64.AppImage)
+- [mattermost-desktop-5.3.0-nightly.20230309-linux-arm64.tar.gz](https://s3.amazonaws.com/releases.mattermost.com/desktop/5.3.0-nightly.20230309/mattermost-desktop-5.3.0-nightly.20230309-linux-arm64.tar.gz)
+- [mattermost-desktop-5.3.0-nightly.20230309-linux-x64.tar.gz](https://s3.amazonaws.com/releases.mattermost.com/desktop/5.3.0-nightly.20230309/mattermost-desktop-5.3.0-nightly.20230309-linux-x64.tar.gz)
+- [mattermost-desktop-5.3.0-nightly.20230309-linux-x86_64.AppImage](https://s3.amazonaws.com/releases.mattermost.com/desktop/5.3.0-nightly.20230309/mattermost-desktop-5.3.0-nightly.20230309-linux-x86_64.AppImage)
+- [mattermost-desktop-5.3.0-nightly.20230309-linux-x86_64.rpm](https://s3.amazonaws.com/releases.mattermost.com/desktop/5.3.0-nightly.20230309/mattermost-desktop-5.3.0-nightly.20230309-linux-x86_64.rpm)
+- [mattermost-desktop_5.3.0-nightly.20230309-1_amd64.deb](https://s3.amazonaws.com/releases.mattermost.com/desktop/5.3.0-nightly.20230309/mattermost-desktop_5.3.0-nightly.20230309-1_amd64.deb)
+- [mattermost-desktop_5.3.0-nightly.20230309-1_arm64.deb](https://s3.amazonaws.com/releases.mattermost.com/desktop/5.3.0-nightly.20230309/mattermost-desktop_5.3.0-nightly.20230309-1_arm64.deb)
+##### :apple_logo: macOS
+- [mattermost-desktop-5.3.0-nightly.20230309-mac-m1.dmg](https://s3.amazonaws.com/releases.mattermost.com/desktop/5.3.0-nightly.20230309/mattermost-desktop-5.3.0-nightly.20230309-mac-m1.dmg)
+- [mattermost-desktop-5.3.0-nightly.20230309-mac-m1.dmg.blockmap](https://s3.amazonaws.com/releases.mattermost.com/desktop/5.3.0-nightly.20230309/mattermost-desktop-5.3.0-nightly.20230309-mac-m1.dmg.blockmap)
+- [mattermost-desktop-5.3.0-nightly.20230309-mac-m1.zip](https://s3.amazonaws.com/releases.mattermost.com/desktop/5.3.0-nightly.20230309/mattermost-desktop-5.3.0-nightly.20230309-mac-m1.zip)
+- [mattermost-desktop-5.3.0-nightly.20230309-mac-universal.dmg](https://s3.amazonaws.com/releases.mattermost.com/desktop/5.3.0-nightly.20230309/mattermost-desktop-5.3.0-nightly.20230309-mac-universal.dmg)
+- [mattermost-desktop-5.3.0-nightly.20230309-mac-universal.dmg.blockmap](https://s3.amazonaws.com/releases.mattermost.com/desktop/5.3.0-nightly.20230309/mattermost-desktop-5.3.0-nightly.20230309-mac-universal.dmg.blockmap)
+- [mattermost-desktop-5.3.0-nightly.20230309-mac-universal.zip](https://s3.amazonaws.com/releases.mattermost.com/desktop/5.3.0-nightly.20230309/mattermost-desktop-5.3.0-nightly.20230309-mac-universal.zip)
+- [mattermost-desktop-5.3.0-nightly.20230309-mac-x64.dmg](https://s3.amazonaws.com/releases.mattermost.com/desktop/5.3.0-nightly.20230309/mattermost-desktop-5.3.0-nightly.20230309-mac-x64.dmg)
+- [mattermost-desktop-5.3.0-nightly.20230309-mac-x64.dmg.blockmap](https://s3.amazonaws.com/releases.mattermost.com/desktop/5.3.0-nightly.20230309/mattermost-desktop-5.3.0-nightly.20230309-mac-x64.dmg.blockmap)
+- [mattermost-desktop-5.3.0-nightly.20230309-mac-x64.zip](https://s3.amazonaws.com/releases.mattermost.com/desktop/5.3.0-nightly.20230309/mattermost-desktop-5.3.0-nightly.20230309-mac-x64.zip)
+##### :windows: Windows
+- [mattermost-desktop-5.3.0-nightly.20230309-arm64.zip](https://s3.amazonaws.com/releases.mattermost.com/desktop/5.3.0-nightly.20230309/mattermost-desktop-5.3.0-nightly.20230309-arm64.zip)
+- [mattermost-desktop-5.3.0-nightly.20230309-win32.zip](https://s3.amazonaws.com/releases.mattermost.com/desktop/5.3.0-nightly.20230309/mattermost-desktop-5.3.0-nightly.20230309-win32.zip)
+- [mattermost-desktop-5.3.0-nightly.20230309-win64.zip](https://s3.amazonaws.com/releases.mattermost.com/desktop/5.3.0-nightly.20230309/mattermost-desktop-5.3.0-nightly.20230309-win64.zip)

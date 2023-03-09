@@ -7,29 +7,22 @@ env:
   TERM: xterm
 
 jobs:
-  nvm:
-    runs-on: windows-2022
+  out:
+    runs-on: ubuntu-22.04
+    outputs:
+      links: ${{ steps.generate-linklist.outputs.linklist }}
     steps:
       - uses: actions/checkout@v3
 
-      - uses: ./.github/actions/patch-nightly-version
+      - run: |
+          echo "linklist=$(<./linklist.txt)" >> "$GITHUB_OUTPUT"
 
-      - run: jq .version package.json
-
-  # test-linux:
-  #   runs-on: ubuntu-22.04
-  #   steps:
-  #     - name: generate-artifacts
-  #       run: |
-  #         mkdir -p build/linux
-  #         echo "File 1" > build/linux/binary1-linux.txt
-  #         echo "File 2" > build/linux/binary2-linux.txt
-  #     - name: upload
-  #       uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
-  #       with:
-  #         name: build
-  #         path: ./build
-  #         retention-days: 1
+  test-linux:
+    runs-on: ubuntu-22.04
+    needs:
+      - out
+    steps:
+      - run: echo "${{ needs.out.outputs.links }}"
 
   # test-mac:
   #   runs-on: macos-12
