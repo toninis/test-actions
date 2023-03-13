@@ -3,6 +3,9 @@ name: test
 on:
   push:
 
+permissions:
+  contents: write
+
 env:
   TERM: xterm
 
@@ -34,6 +37,7 @@ jobs:
         run: |
           git config --global user.email "nightly-build@mattermost.com"
           git config --global user.name "Nightly Build"
+          git checkout -b "$(jq -r .version package.json)"
           git add package.json
           git commit -m "Nightly build $(jq -r .version package.json)"
           git tag "$(jq -r .version package.json)" -m "Nightly build $(jq -r .version package.json)"
