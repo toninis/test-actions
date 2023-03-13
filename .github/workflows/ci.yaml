@@ -11,17 +11,12 @@ jobs:
     runs-on: ubuntu-22.04
     environment: test
     steps:
-      - uses: actions/checkout@v3
-      - run: |
-          echo ${{ vars.VAR_1 }}
-          echo ${{ vars.VAR_2 }}
-
       - uses: actions/github-script@v6.3.1
         with:
           result-encoding: string
           script: |
             return github.rest.actions.listEnvironmentVariables({
-              ${GITHUB_REPOSITORY},
+              ${{ github.repository_id }},
               "test",
             });
 
