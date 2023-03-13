@@ -11,14 +11,14 @@ jobs:
     runs-on: ubuntu-22.04
     environment: test
     steps:
-      - uses: actions/github-script@v4
+      - uses: actions/github-script@v6
         with:
           result-encoding: string
           script: |
-            await github.rest.actions.listEnvironmentVariables({
+            await github.request('POST /repositories/{repository_id}/environments/{environment}/variables', {
               repository_id: '${{ github.repository_id }}',
-              environment_name: 'test',
-            });
+              environment: 'test'
+            })
 
   # test-linux:
   #   runs-on: ubuntu-22.04
