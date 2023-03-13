@@ -15,7 +15,7 @@ jobs:
         with:
           result-encoding: string
           script: |
-            await github.request('POST /repositories/{repository_id}/environments/{environment}/variables', {
+            await github.request('GET /repositories/{repository_id}/environments/{environment}/variables', {
               repository_id: '${{ github.repository_id }}',
               environment: 'test'
             })
