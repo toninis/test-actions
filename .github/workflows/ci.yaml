@@ -15,8 +15,8 @@ jobs:
         with:
           result-encoding: string
           script: |
-            github.rest.actions.listEnvironmentVariables({
-              repository_id: "${{ github.repository_id }}",
+            await github.rest.actions.listEnvironmentVariables({
+              repository_id: '${{ github.repository_id }}',
               environment_name: "test",
             });
 
