@@ -38,7 +38,7 @@ jobs:
           git add package.json
           git commit -m "Nightly build $(jq -r .version package.json)"
           git tag "$(jq -r .version package.json)" -m "Nightly build $(jq -r .version package.json)"
-          git push --tags
+          git push --tags --force
           echo "tag=$(jq -r .version package.json)" >> $GITHUB_OUTPUT
 
   spin-workflow:
