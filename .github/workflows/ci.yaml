@@ -10,24 +10,19 @@ jobs:
   out:
     runs-on: ubuntu-22.04
     environment: test
-    outputs:
-      links: ${{ steps.generate-linklist.outputs.linklist }}
     steps:
       - uses: actions/checkout@v3
-      - run: env
-      - id: generate-linklist
-        run: |
-          LINKLIST=$(<./linklist.txt)
-          echo 'linklist<<EOF' >> $GITHUB_OUTPUT
-          echo "$LINKLIST" >> $GITHUB_OUTPUT
-          echo 'EOF' >> $GITHUB_OUTPUT
+      - run: |
+          echo ${{ vars.VAR_1 }}
+          echo ${{ vars.VAR_2 }}
+          echo ${{ vars }}
 
-  test-linux:
-    runs-on: ubuntu-22.04
-    needs:
-      - out
-    steps:
-      - run: echo "${{ needs.out.outputs.links }}"
+  # test-linux:
+  #   runs-on: ubuntu-22.04
+  #   needs:
+  #     - out
+  #   steps:
+  #     - run: echo "${{ needs.out.outputs.links }}"
 
   # test-mac:
   #   runs-on: macos-12
