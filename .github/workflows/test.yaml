@@ -8,8 +8,8 @@ on:
         required: true
         type: string
   workflow_dispatch:
-    tag:
-      version:
+    inputs:
+      tag:
         description: "Reference tag of the nightly build"
         required: true
         type: string
