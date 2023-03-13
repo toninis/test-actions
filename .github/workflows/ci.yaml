@@ -46,11 +46,11 @@ jobs:
     needs:
       - tag-nightly-build
     with:
-      tag: ${{ needs.tag-nightly-build.outputs.tags }}
+      tag: ${{ needs.tag-nightly-build.outputs.tag }}
 
   test-variable:
     runs-on: ubuntu-22.04
     needs:
       - tag-nightly-build
     steps:
-      - run: echo "${{ needs.tag-nightly-build.outputs.tags }}"
+      - run: echo "${{ needs.tag-nightly-build.outputs.tag }}"
