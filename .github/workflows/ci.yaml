@@ -7,48 +7,49 @@ env:
   TERM: xterm
 
 jobs:
-  out:
-    runs-on: ubuntu-22.04
-    environment: test
-    steps:
-      - uses: actions/github-script@v6
-        with:
-          result-encoding: string
-          script: |
-            await github.request('GET /repositories/{repository_id}/environments/{environment}/variables', {
-              repository_id: '${{ github.repository_id }}',
-              environment: 'test'
-            })
-
-  # test-linux:
+  # out:
   #   runs-on: ubuntu-22.04
-  #   needs:
-  #     - out
+  #   environment: test
   #   steps:
-  #     - run: echo "${{ needs.out.outputs.links }}"
-
-  # test-mac:
-  #   runs-on: macos-12
-  #   steps:
-  #     - name: generate-artifacts
-  #       run: |
-  #         mkdir -p build/mac-os
-  #         echo "File 1" > build/mac-os/binary1-mac.txt
-  #         echo "File 2" > build/mac-os/binary2-mac.txt
-  #     - name: upload
-  #       uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
+  #     - uses: actions/github-script@v6
   #       with:
-  #         name: build
-  #         path: ./build
-  #         retention-days: 1
+  #         result-encoding: string
+  #         script: |
+  #           await github.request('GET /repositories/{repository_id}/environments/{environment}/variables', {
+  #             repository_id: '${{ github.repository_id }}',
+  #             environment: 'test'
+  #           })
 
-  # upload-to-s3-daily:
-  #   runs-on: ubuntu-22.04
-  #   needs:
-  #     - test-linux
-  #     - test-mac
-  #   steps:
-  #     - name: download-builds
-  #       uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # v3.0.2
-  #     - name: check tree
-  #       run: ls -R
+  tag-nightly-build:
+    runs-on: ubuntu-22.04
+    outputs:
+      tag: ${{ steps.tag-creation.outputs.tag }}
+    steps:
+      - name: nightly/checkout-repo
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+      - name: nightly/patch-version
+        uses: ./.github/actions/patch-nightly-version
+      - name: nightly/create-nightly-build-tag
+        id: tag-creation
+        run: |
+          git config --global user.email "nightly-build@mattermost.com"
+          git config --global user.name "Nightly Build"
+          git add package.json
+          git commit -m "Nightly build $(jq -r .version package.json)"
+          git tag "$(jq -r .version package.json)" -m "Nightly build $(jq -r .version package.json)"
+          git push --tags
+          echo "tag=$(jq -r .version package.json)" >> $GITHUB_OUTPUT
+
+  spin-workflow:
+    uses: ./.github/workflows/test.yaml
+    needs:
+      - tag-nightly-build
+    with:
+      tag: ${{ needs.tag-nightly-build.outputs.tags }}
+
+  test-variable:
+    runs-on: ubuntu-22.04
+    needs:
+      - tag-nightly-build
+    steps:
+      - run: echo "${{ needs.tag-nightly-build.outputs.tags }}"

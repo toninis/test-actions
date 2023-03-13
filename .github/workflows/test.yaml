@@ -1,0 +1,51 @@
+name: test
+
+on:
+  workflow_call:
+    inputs:
+      tag:
+        description: "Reference tag of the nightly build"
+        required: true
+        type: string
+  workflow_dispatch:
+    tag:
+      version:
+        description: "Reference tag of the nightly build"
+        required: true
+        type: string
+env:
+  REFERENCE: ${{ inputs.tag }}
+
+jobs:
+  io-linux:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: ci/checkout-repo
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+        with:
+          ref: ${{ env.REFERENCE }}
+      - run: |
+          echo "${{ env.REFERENCE }}"
+          cat package.json | jq .version
+
+  io-mac:
+    runs-on: macos-12
+    steps:
+      - name: ci/checkout-repo
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+        with:
+          ref: ${{ env.REFERENCE }}
+      - run: |
+          echo "${{ env.REFERENCE }}"
+          cat package.json | jq .version
+
+  io-windows:
+    runs-on: windows-2022
+    steps:
+      - name: ci/checkout-repo
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+        with:
+          ref: ${{ env.REFERENCE }}
+      - run: |
+          echo "${{ env.REFERENCE }}"
+          cat package.json | jq .version
