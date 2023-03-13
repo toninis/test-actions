@@ -15,7 +15,16 @@ jobs:
       - run: |
           echo ${{ vars.VAR_1 }}
           echo ${{ vars.VAR_2 }}
-          echo ${{ vars }}
+
+      - uses: actions/github-script@v6.3.1
+        with:
+          result-encoding: json
+          script: |
+            return github.rest.repos.getEnvironment({
+              ${GITHUB_OWNER},
+              ${GITHUB_REPOSITORY},
+              "test",
+            });
 
   # test-linux:
   #   runs-on: ubuntu-22.04
