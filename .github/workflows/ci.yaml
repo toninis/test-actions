@@ -18,10 +18,9 @@ jobs:
 
       - uses: actions/github-script@v6.3.1
         with:
-          result-encoding: json
+          result-encoding: string
           script: |
-            return github.rest.repos.getEnvironment({
-              ${GITHUB_OWNER},
+            return github.rest.actions.listEnvironmentVariables({
               ${GITHUB_REPOSITORY},
               "test",
             });
