@@ -48,9 +48,9 @@ jobs:
     with:
       tag: ${{ needs.tag-nightly-build.outputs.tag }}
 
-  test-variable:
-    runs-on: ubuntu-22.04
+  spin-workflow2:
+    uses: ./.github/workflows/test2.yaml
     needs:
       - tag-nightly-build
-    steps:
-      - run: echo "${{ needs.tag-nightly-build.outputs.tag }}"
+    with:
+      tag: ${{ needs.tag-nightly-build.outputs.tag }}
