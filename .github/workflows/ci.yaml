@@ -7,50 +7,66 @@ env:
   TERM: xterm
 
 jobs:
-  # out:
-  #   runs-on: ubuntu-22.04
-  #   environment: test
-  #   steps:
-  #     - uses: actions/github-script@v6
-  #       with:
-  #         result-encoding: string
-  #         script: |
-  #           await github.request('GET /repositories/{repository_id}/environments/{environment}/variables', {
-  #             repository_id: '${{ github.repository_id }}',
-  #             environment: 'test'
-  #           })
-
-  tag-nightly-build:
+  test-checkout:
     runs-on: ubuntu-22.04
-    outputs:
-      tag: ${{ steps.tag-creation.outputs.tag }}
+    environment: test
     steps:
-      - name: nightly/checkout-repo
+      - name: ci/checkout-repo
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
-      - name: nightly/patch-version
-        uses: ./.github/actions/patch-nightly-version
-      - name: nightly/create-nightly-build-tag
-        id: tag-creation
-        run: |
-          git config --global user.email "nightly-build@mattermost.com"
-          git config --global user.name "Nightly Build"
-          git checkout -b "$(jq -r .version package.json)"
-          git add package.json
-          git commit -m "Nightly build $(jq -r .version package.json)"
-          git tag "$(jq -r .version package.json)" -m "Nightly build $(jq -r .version package.json)"
-          git push --tags --force
-          echo "tag=$(jq -r .version package.json)" >> $GITHUB_OUTPUT
+      - run: |
+          echo ${{ github.workspace }}
+          echo $GITHUB_WORKSPACE
+          ls ${{ github.workspace }}
+          pwd
 
-  spin-workflow:
-    uses: ./.github/workflows/test.yaml
-    needs:
-      - tag-nightly-build
-    with:
-      tag: ${{ needs.tag-nightly-build.outputs.tag }}
+  test-no-checkout:
+    runs-on: ubuntu-22.04
+    environment: test
+    steps:
+      - run: |
+          echo ${{ github.workspace }}
+          echo $GITHUB_WORKSPACE
+          ls ${{ github.workspace }}
+          pwd
+      - name: ci/checkout-repo
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+      - run: |
+          echo ${{ github.workspace }}
+          echo $GITHUB_WORKSPACE
+          ls ${{ github.workspace }}
+          pwd
 
-  spin-workflow2:
-    uses: ./.github/workflows/test2.yaml
-    needs:
-      - tag-nightly-build
-    with:
-      tag: ${{ needs.tag-nightly-build.outputs.tag }}
+  # tag-nightly-build:
+  #   runs-on: ubuntu-22.04
+  #   outputs:
+  #     tag: ${{ steps.tag-creation.outputs.tag }}
+  #   steps:
+  #     - name: nightly/checkout-repo
+  #       uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+  #     - name: nightly/patch-version
+  #       uses: ./.github/actions/patch-nightly-version
+  #     - name: nightly/create-nightly-build-tag
+  #       id: tag-creation
+  #       run: |
+  #         git config --global user.email "nightly-build@mattermost.com"
+  #         git config --global user.name "Nightly Build"
+  #         git checkout -b "$(jq -r .version package.json)"
+  #         git add package.json
+  #         git commit -m "Nightly build $(jq -r .version package.json)"
+  #         git tag "$(jq -r .version package.json)" -m "Nightly build $(jq -r .version package.json)"
+  #         git push --tags --force
+  #         echo "tag=$(jq -r .version package.json)" >> $GITHUB_OUTPUT
+
+  # spin-workflow:
+  #   uses: ./.github/workflows/test.yaml
+  #   needs:
+  #     - tag-nightly-build
+  #   with:
+  #     tag: ${{ needs.tag-nightly-build.outputs.tag }}
+
+  # spin-workflow2:
+  #   uses: ./.github/workflows/test2.yaml
+  #   needs:
+  #     - tag-nightly-build
+  #   with:
+  #     tag: ${{ needs.tag-nightly-build.outputs.tag }}
