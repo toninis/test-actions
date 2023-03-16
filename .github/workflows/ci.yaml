@@ -7,34 +7,19 @@ env:
   TERM: xterm
 
 jobs:
-  test-checkout:
+  test:
     runs-on: ubuntu-22.04
     environment: test
     steps:
       - name: ci/checkout-repo
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
       - run: |
-          echo ${{ github.workspace }}
-          echo $GITHUB_WORKSPACE
-          ls ${{ github.workspace }}
-          pwd
-
-  test-no-checkout:
-    runs-on: ubuntu-22.04
-    environment: test
-    steps:
-      - run: |
-          echo ${{ github.workspace }}
-          echo $GITHUB_WORKSPACE
-          ls ${{ github.workspace }}
-          pwd
-      - name: ci/checkout-repo
-        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
-      - run: |
-          echo ${{ github.workspace }}
-          echo $GITHUB_WORKSPACE
-          ls ${{ github.workspace }}
-          pwd
+          echo "::group::Build"
+          cat database.yaml
+          echo "::endgroup::"
+          echo "::group::Deploy"
+          cat linklist.txt
+          echo "::endgroup::"
 
   # tag-nightly-build:
   #   runs-on: ubuntu-22.04
