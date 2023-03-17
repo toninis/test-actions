@@ -10,7 +10,7 @@ env:
 jobs:
   test-script:
     runs-on: ubuntu-22.04
-    environment: ${{ env.ENVIRONMENT }}
+    environment: ${ENVIRONMENT}
     steps:
       - run: |
           echo $VAR_1
@@ -33,7 +33,7 @@ jobs:
                 authorization: "token ${{ secrets.TEMP_PAT }}",
               },
               repository_id: '${{ github.repository_id }}',
-              environment_name: '${{ env.ENVIRONMENT }}',
+              environment_name: '${ENVIRONMENT}',
             });
 
             console.log(`${vars.data.total_count} variables found`)
@@ -48,7 +48,7 @@ jobs:
                 authorization: "token ${{ secrets.TEMP_PAT }}",
               },
               repository_id: '${{ github.repository_id }}',
-              environment_name: '${{ env.ENVIRONMENT }}',
+              environment_name: '${ENVIRONMENT}',
             });
             console.log(`${secrets.data.total_count} secrets found`)
 
@@ -67,7 +67,7 @@ jobs:
 
   test-external-script:
     runs-on: ubuntu-22.04
-    environment: ${{ env.ENVIRONMENT }}
+    environment: ${ENVIRONMENT}
     steps:
       - run: |
           echo $VAR_1
