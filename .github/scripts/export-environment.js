@@ -1,4 +1,4 @@
-module.exports = async () => {
+module.exports = async ({core}) => {
   const { request } = require("@octokit/request");
 
   core.startGroup("Exporting Variables");

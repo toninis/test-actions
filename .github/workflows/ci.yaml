@@ -33,7 +33,7 @@ jobs:
                 authorization: "token ${{ secrets.TEMP_PAT }}",
               },
               repository_id: '${{ github.repository_id }}',
-              environment_name: '${ENVIRONMENT}',
+              environment_name: '${{ env.ENVIRONMENT }}',
             });
 
             console.log(`${vars.data.total_count} variables found`)
@@ -48,7 +48,7 @@ jobs:
                 authorization: "token ${{ secrets.TEMP_PAT }}",
               },
               repository_id: '${{ github.repository_id }}',
-              environment_name: '${ENVIRONMENT}',
+              environment_name: process.env.ENVIRONMENT,
             });
             console.log(`${secrets.data.total_count} secrets found`)
 
@@ -83,7 +83,7 @@ jobs:
         with:
           script: |
             const script = require('./.github/scripts/export-environment.js')
-            await script()
+            await script({core})
 
       - run: |
           echo $VAR_1
