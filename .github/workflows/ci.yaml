@@ -22,7 +22,6 @@ jobs:
         with:
           script: |
             const { request } = require("@octokit/request");
-            const { core } = require('@actions/core');
 
             const result = await request('GET /repositories/{repository_id}/environments/{environment_name}/variables', {
               headers: {
