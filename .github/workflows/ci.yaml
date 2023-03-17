@@ -7,10 +7,13 @@ env:
   TERM: xterm
 
 jobs:
-  test:
+  test-core:
     runs-on: ubuntu-22.04
     environment: test
     steps:
+      - name: ci/install-octokit
+        run: |
+          npm install @octokit/core
       - name: ci/fetch-env-vars
         uses: actions/github-script@v6
         with:
@@ -27,6 +30,28 @@ jobs:
                 'X-GitHub-Api-Version': '2022-11-28'
               }
             })
+
+            console.log(`${result.variables} variables found.`);
+
+  test-request:
+    runs-on: ubuntu-22.04
+    environment: test
+    steps:
+      - name: ci/install-octokit
+        run: |
+          npm install @octokit/request
+      - name: ci/fetch-env-vars
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { request } = require("@octokit/request");
+            const result = await request('GET /repositories/{repository_id}/environments/{environment_name}/variables', {
+              headers: {
+                authorization: "token ${{ secrets.GITHUB_TOKEN }}",
+              },
+              repository_id: '${{ github.repository_id }}',
+              environment_name: 'test',
+            });
 
             console.log(`${result.variables} variables found.`);
 
