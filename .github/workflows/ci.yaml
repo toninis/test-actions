@@ -16,26 +16,9 @@ jobs:
           echo $VAR_2
       - name: ci/install-octokit
         run: |
-          npm install @octokit/request
+          npm ci
       - name: ci/fetch-env-vars
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const { request } = require("@octokit/request");
-
-            const result = await request('GET /repositories/{repository_id}/environments/{environment_name}/variables', {
-              headers: {
-                authorization: "token ${{ secrets.TEMP_PAT }}",
-              },
-              repository_id: '${{ github.repository_id }}',
-              environment_name: 'test',
-            });
-
-            console.log(`${result.total_count} variables found`)
-
-            result.variables.forEach(function (item, index) {
-              core.exportVariable(item['name'], item['value']);
-            });
+        run: node index.js
 
       - run: |
           echo $VAR_1
