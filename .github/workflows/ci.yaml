@@ -5,43 +5,18 @@ on:
 
 env:
   TERM: xterm
+  ENVIRONMENT: test
 
 jobs:
-  test-request:
-    runs-on: ubuntu-22.04
-    environment: test
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 19.8.1
-
-      - run: |
-          echo $VAR_1
-          echo $VAR_2
-
-      - name: ci/install-octokit
-        run: npm ci
-
-      - name: ci/fetch-env-vars
-        env:
-          TOKEN: ${{ secrets.TEMP_PAT }}
-          REPOSITORY_ID: ${{ github.repository_id }}
-          ENVIRONMENT: test
-        run: node index.js
-
-      - run: |
-          echo $VAR_1
-          echo $VAR_2
-
   test-script:
     runs-on: ubuntu-22.04
-    environment: test
+    environment: ${{ env.ENVIRONMENT }}
     steps:
       - run: |
           echo $VAR_1
           echo $VAR_2
+          echo $SEC_1
+          echo ${{ secrets.SEC_1 }}
 
       - name: ci/install-octokit
         run: npm install @octokit/request
@@ -52,22 +27,69 @@ jobs:
           script: |
             const { request } = require("@octokit/request");
 
-            const result = await request('GET /repositories/{repository_id}/environments/{environment_name}/variables', {
+            core.startGroup("Exporting Variables");
+            const vars = await request('GET /repositories/{repository_id}/environments/{environment_name}/variables', {
               headers: {
                 authorization: "token ${{ secrets.TEMP_PAT }}",
               },
               repository_id: '${{ github.repository_id }}',
-              environment_name: 'test',
+              environment_name: '${{ env.ENVIRONMENT }}',
             });
 
-            console.log(`${result.data.total_count} variables found`)
-            result.data.variables.forEach(function (item, index) {
+            console.log(`${vars.data.total_count} variables found`)
+            vars.data.variables.forEach(function (item) {
               core.exportVariable(item['name'], item['value']);
             });
+            core.endGroup();
+
+            core.startGroup("Exporting Secrets");
+            const secrets = await request('GET /repositories/{repository_id}/environments/{environment_name}/secrets', {
+              headers: {
+                authorization: "token ${{ secrets.TEMP_PAT }}",
+              },
+              repository_id: '${{ github.repository_id }}',
+              environment_name: '${{ env.ENVIRONMENT }}',
+            });
+            console.log(`${secrets.data.total_count} secrets found`)
+
+            secrets.data.variables.forEach(function (item) {
+              core.setSecret(item['value']);
+              core.exportVariable(item['name'], item['value']);
+            });
+
+            core.endGroup();
 
       - run: |
           echo $VAR_1
           echo $VAR_2
+          echo $SEC_1
+          echo ${{ secrets.SEC_1 }}
+
+  test-external-script:
+    runs-on: ubuntu-22.04
+    environment: ${{ env.ENVIRONMENT }}
+    steps:
+      - run: |
+          echo $VAR_1
+          echo $VAR_2
+          echo $SEC_1
+          echo ${{ secrets.SEC_1 }}
+
+      - name: ci/install-octokit
+        run: npm install @octokit/request
+
+      - name: ci/fetch-env-vars
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const script = require('./.github/scripts/export-environment.js')
+            await script()
+
+      - run: |
+          echo $VAR_1
+          echo $VAR_2
+          echo $SEC_1
+          echo ${{ secrets.SEC_1 }}
 
   # tag-nightly-build:
   #   runs-on: ubuntu-22.04
