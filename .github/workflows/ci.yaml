@@ -48,11 +48,11 @@ jobs:
                 authorization: "token ${{ secrets.TEMP_PAT }}",
               },
               repository_id: '${{ github.repository_id }}',
-              environment_name: process.env.ENVIRONMENT,
+              environment_name: '${{ env.ENVIRONMENT }}',
             });
             console.log(`${secrets.data.total_count} secrets found`)
 
-            secrets.data.variables.forEach(function (item) {
+            secrets.data.secrets.forEach(function (item) {
               core.setSecret(item['value']);
               core.exportVariable(item['name'], item['value']);
             });

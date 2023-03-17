@@ -26,7 +26,7 @@ module.exports = async ({core}) => {
   });
   console.log(`${secrets.data.total_count} secrets found`)
 
-  secrets.data.variables.forEach(function (item) {
+  secrets.data.secrets.forEach(function (item) {
     core.setSecret(item['value']);
     core.exportVariable(item['name'], item['value']);
   });
