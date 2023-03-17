@@ -20,7 +20,7 @@ jobs:
           script: |
             const { Octokit } = require("@octokit/core");
             const octokit = new Octokit({
-              auth: '${{ secrets.GITHUB_TOKEN }}'
+              auth: '${{ secrets.TEMP_PAT }}'
             })
 
             const result = await octokit.request('GET /repositories/{repository_id}/environments/{environment_name}/variables', {
@@ -47,7 +47,7 @@ jobs:
             const { request } = require("@octokit/request");
             const result = await request('GET /repositories/{repository_id}/environments/{environment_name}/variables', {
               headers: {
-                authorization: "token ${{ secrets.GITHUB_TOKEN }}",
+                authorization: "token ${{ secrets.TEMP_PAT }}",
               },
               repository_id: '${{ github.repository_id }}',
               environment_name: 'test',
