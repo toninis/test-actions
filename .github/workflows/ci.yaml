@@ -11,15 +11,24 @@ jobs:
     runs-on: ubuntu-22.04
     environment: test
     steps:
-      - name: ci/checkout-repo
-        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
-      - run: |
-          echo "::group::Build"
-          cat database.yaml
-          echo "::endgroup::"
-          echo "::group::Deploy"
-          cat linklist.txt
-          echo "::endgroup::"
+      - name: ci/fetch-env-vars
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { Octokit } = require("@octokit/core");
+            const octokit = new Octokit({
+              auth: '${{ secrets.GITHUB_TOKEN }}'
+            })
+
+            const result = await octokit.request('GET /repositories/{repository_id}/environments/{environment_name}/variables', {
+              repository_id: '${{ github.repository_id }}',
+              environment_name: 'test',
+              headers: {
+                'X-GitHub-Api-Version': '2022-11-28'
+              }
+            })
+
+            console.log(`${result.variables} variables found.`);
 
   # tag-nightly-build:
   #   runs-on: ubuntu-22.04
